@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Dice Display</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #222; }
+    .dice { display: flex; gap: 20px; }
+    .die {
+      width: 100px; height: 100px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div class="dice">
+    <div id="die1" class="die"></div>
+    <div id="die2" class="die"></div>
+    <div id="die3" class="die"></div>
+    <div id="die4" class="die"></div>
+  </div>
+
+  <script>
+     const firebaseConfig = {
+    apiKey: "AIzaSyB2fPbh2JP4Bf9R-bUQcHQuJdqp5Bboswo",
+    authDomain: "dice-roller-2a269.firebaseapp.com",
+    databaseURL: "https://dice-roller-2a269-default-rtdb.firebaseio.com",
+    projectId: "dice-roller-2a269",
+    storageBucket: "dice-roller-2a269.appspot.com",
+    messagingSenderId: "65822101959",
+    appId: "1:65822101959:web:0f5b72309ec852956e89e2",
+    measurementId: "G-2K6W1FLKTN"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const dice = ['die1', 'die2', 'die3', 'die4'];
+    db.ref('dice').on('value', snapshot => {
+      const values = snapshot.val();
+      dice.forEach((die, index) => {
+        document.getElementById(die).style.backgroundColor = values[`die${index+1}`];
+      });
+    });
+  </script>
+</body>
+</html>
